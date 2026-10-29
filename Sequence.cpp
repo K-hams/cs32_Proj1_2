@@ -25,30 +25,34 @@
 //   erase(index)       removes element index;
 //                      throws std::out_of_range if index >= size()
 
+
+//since virtual abstarct  no body? 
+/*
 template <typename T>
 std::size_t Sequence<T>::size() const {
-    throw std::logic_error("Sequence::size() not implemented");
+
 }
 
 template <typename T>
 T& Sequence<T>::at(std::size_t) {
-    throw std::logic_error("Sequence::at() not implemented");
+    
 }
 
 template <typename T>
 const T& Sequence<T>::at(std::size_t) const {
-    throw std::logic_error("Sequence::at() const not implemented");
+    
 }
 
 template <typename T>
 void Sequence<T>::insert(std::size_t, const T&) {
-    throw std::logic_error("Sequence::insert() not implemented");
+
 }
 
 template <typename T>
 void Sequence<T>::erase(std::size_t) {
-    throw std::logic_error("Sequence::erase() not implemented");
+
 }
+*/
 
 // ---- Shared operations ----
 //
@@ -58,7 +62,8 @@ void Sequence<T>::erase(std::size_t) {
 template <typename T>
 bool Sequence<T>::empty() const {
     // TODO
-    throw std::logic_error("empty() not implemented");
+    //so if empty = ture or not empty false
+    return (!size());
 }
 
 // Returns a reference to the first element.
@@ -66,7 +71,13 @@ bool Sequence<T>::empty() const {
 template <typename T>
 T& Sequence<T>::front() {
     // TODO
-    throw std::logic_error("front() not implemented");
+
+    //check if empty
+    if (empty()){
+        throw std:: out_of_range("empty sequence");
+    }
+    //if not
+    return at(0);
 }
 
 // Returns a reference to the last element.
@@ -74,14 +85,25 @@ T& Sequence<T>::front() {
 template <typename T>
 T& Sequence<T>::back() {
     // TODO
-    throw std::logic_error("back() not implemented");
+
+    //check if empty
+    if (empty()){
+        throw std:: out_of_range("empty sequence");
+    }
+    //if not
+    return at(size() - 1);
+    
 }
 
 // Appends a copy of value to the end.
 template <typename T>
 void Sequence<T>::push_back(const T& value) {
-    // TODO
-    throw std::logic_error("push_back() not implemented");
+    // TODO 
+    //insert is size_T, const T 
+    
+    insert(size(),value);
+
+    
 }
 
 // Removes the last element.
@@ -89,14 +111,30 @@ void Sequence<T>::push_back(const T& value) {
 template <typename T>
 void Sequence<T>::pop_back() {
     // TODO
-    throw std::logic_error("pop_back() not implemented");
+    
+    //empty 
+    if(empty()){
+        throw std::out_of_range("empty sequence");
+    }
+
+    //removing
+    erase(size()-1);
+    
 }
 
 // Returns true if some element compares equal (==) to value.
 template <typename T>
 bool Sequence<T>::contains(const T& value) const {
     // TODO
-    throw std::logic_error("contains() not implemented");
+   //loopthru to find the elemtn in the sequence and see if any equals the val
+   for (std::size_t i = 0; i < size(); i++){
+        if (at(i) == value){
+            return true;
+        }
+   }
+
+   return false; 
+
 }
 
 // Returns the index of the first element that compares equal (==) to value,
@@ -104,7 +142,16 @@ bool Sequence<T>::contains(const T& value) const {
 template <typename T>
 int Sequence<T>::indexOf(const T& value) const {
     // TODO
-    throw std::logic_error("indexOf() not implemented");
+
+    //loop
+    for (std::size_t i = 0; i < size(); i++){
+        if (at(i) == value){
+            return static_cast<int>(i);
+        }
+   }
+
+   return -1;
+    
 }
 
 // Writes the elements to os in this exact format, with no newline:
@@ -120,7 +167,16 @@ int Sequence<T>::indexOf(const T& value) const {
 template <typename T>
 void Sequence<T>::print(std::ostream& os) const {
     // TODO
-    throw std::logic_error("print() not implemented");
+    os << "[";
+
+    for (std::size_t i = 0; i < size(); i++) {
+        if (i > 0) {
+            os << ", ";
+        }
+        os << at(i);
+    }
+
+    os << "]";
 }
 
 // Returns true if a and b have the same size and every pair of elements
@@ -129,14 +185,33 @@ void Sequence<T>::print(std::ostream& os) const {
 template <typename T>
 bool operator==(const Sequence<T>& a, const Sequence<T>& b) {
     // TODO
-    throw std::logic_error("operator== not implemented");
+    //checking size
+    if (!(a.size() == b.size())){
+        return false; 
+    }
+
+    //if passed now check the loop
+    for (std::size_t i = 0; i < a.size(); i++){
+        if (!(a.at(i) == b.at(i))){
+            return false;
+        }
+    }
+
+    return true; 
 }
 
 // Returns true if a and b are not equal.
 template <typename T>
 bool operator!=(const Sequence<T>& a, const Sequence<T>& b) {
     // TODO
-    throw std::logic_error("operator!= not implemented");
+    return !(a == b);
+}
+
+//DESTRUCTOR
+template <typename T>
+Sequence<T>::~Sequence(){
+    //implement
+
 }
 
 #endif

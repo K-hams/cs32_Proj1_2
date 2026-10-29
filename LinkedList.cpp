@@ -9,6 +9,7 @@
 #define LINKEDLIST_CPP
 
 #include "LinkedList.h"
+#include "Sequence.h"
 
 // ---- Constructors and the Big 3 ----
 
@@ -125,7 +126,7 @@ void LinkedList<T>::erase(std::size_t index) {
 }
 
 // ---- Everything else ----
-
+/*
 template <typename T>
 bool LinkedList<T>::empty() const {
     return head_ == nullptr;
@@ -150,6 +151,7 @@ T& LinkedList<T>::back() {
     }
     return last->value;
 }
+    */
 
 template <typename T>
 void LinkedList<T>::push_back(const T& value) {
@@ -165,7 +167,7 @@ void LinkedList<T>::push_back(const T& value) {
     }
     ++size_;
 }
-
+/*
 template <typename T>
 void LinkedList<T>::pop_back() {
     if (head_ == nullptr) {
@@ -241,5 +243,5 @@ template <typename T>
 bool LinkedList<T>::operator!=(const LinkedList& other) const {
     return !(*this == other);
 }
-
+*/
 #endif

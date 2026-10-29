@@ -19,9 +19,17 @@
 #include <cstddef>
 #include <initializer_list>
 #include <stdexcept>
+#include "Sequence.h"
+
+//do same thing did in LL
+/*Add
+the const version of at() to Vector.h and Vector.cpp: it does the same as at(), but it is a const
+member function and returns const T&. Mark the primitives with override, and push_back too if you
+keep it. Then delete Vector's own empty, front, back, pop_back, operator==, and operator!=*/
+
 
 template <typename T>
-class Vector {
+class Vector : public Sequence<T> {
 public:
     // When the buffer is full, the new capacity is:
     //     max(capacity + 1, (size_t)(capacity * growth_factor))
@@ -40,9 +48,11 @@ public:
     // ---- Element access ----
     T& operator[](std::size_t i);              // does NOT check bounds (at() does)
     const T& operator[](std::size_t i) const;  // const version: see below
-    T& at(std::size_t i);                      // throws std::out_of_range if i >= size()
-    T& front();                                // throws std::out_of_range if empty
-    T& back();                                 // throws std::out_of_range if empty
+    T& at(std::size_t i) override;                      // throws std::out_of_range if i >= size()
+    //new at added
+    const T& at(std::size_t i) const override;
+    //T& front();                                // throws std::out_of_range if empty
+    //T& back();                                 // throws std::out_of_range if empty
     T* data();
 
     // ---- Iterators (a pointer is an iterator!) ----
@@ -57,19 +67,19 @@ public:
     // let a range-for loop run over a const Vector&.
 
     // ---- Capacity ----
-    std::size_t size() const;
+    std::size_t size() const override;
     std::size_t capacity() const;
-    bool empty() const;
+    //bool empty() const ;
     void reserve(std::size_t n);               // grows to exactly n; no-op if n <= capacity()
     void shrink_to_fit();                      // capacity becomes exactly size(); no-op if equal
 
     // ---- Modifiers ----
-    void push_back(const T& value);            // grows using growth_factor if full
-    void pop_back();                           // throws std::out_of_range if empty
+    void push_back(const T& value) override;            // grows using growth_factor if full
+    //void pop_back();                           // throws std::out_of_range if empty
     void clear();                              // size becomes 0; capacity unchanged
     void resize(std::size_t n);                // new elements are T(); if n > capacity(), reserve(n)
-    void insert(std::size_t index, const T& value); // 0 <= index <= size(), else std::out_of_range
-    void erase(std::size_t index);             // 0 <= index < size(), else std::out_of_range
+    void insert(std::size_t index, const T& value) override; // 0 <= index <= size(), else std::out_of_range
+    void erase(std::size_t index) override;           // 0 <= index < size(), else std::out_of_range
 
 private:
     // Changes the capacity to exactly new_cap, keeping the elements.
@@ -81,11 +91,11 @@ private:
     T* end_cap_;  // one past the end of the buffer (capacity = end_cap_ - begin_)
 };
 
-template <typename T>
+/*template <typename T>
 bool operator==(const Vector<T>& a, const Vector<T>& b);   // same size and same elements
 
 template <typename T>
-bool operator!=(const Vector<T>& a, const Vector<T>& b);
+bool operator!=(const Vector<T>& a, const Vector<T>& b);*/
 
 
 // Templates must be visible wherever they are used, so instead of compiling

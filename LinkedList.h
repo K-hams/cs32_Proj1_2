@@ -14,9 +14,15 @@
 #include <initializer_list>
 #include <ostream>
 #include <stdexcept>
+#include "Sequence.h"
+
+//size, both versions of at, insert, and erase with override
+/*Then delete
+every shared operation from LinkedList.h and LinkedList.cpp, including operator== and
+operator!= (you may keep push_back). Run the tests after each deletion.*/
 
 template <typename T>
-class LinkedList {
+class LinkedList : public Sequence<T>{
 public:
     LinkedList();                              // empty list
     LinkedList(std::initializer_list<T> il);   // LinkedList<int> l{1, 2, 3};
@@ -24,22 +30,22 @@ public:
     LinkedList& operator=(const LinkedList& other);
     ~LinkedList();
 
-    std::size_t size() const;
-    T& at(std::size_t i);                      // throws std::out_of_range if i >= size()
-    const T& at(std::size_t i) const;
-    void insert(std::size_t index, const T& value); // throws std::out_of_range if index > size()
-    void erase(std::size_t index);             // throws std::out_of_range if index >= size()
+    std::size_t size() const override;
+    T& at(std::size_t i) override;                      // throws std::out_of_range if i >= size()
+    const T& at(std::size_t i) const override;
+    void insert(std::size_t index, const T& value) override; // throws std::out_of_range if index > size()
+    void erase(std::size_t index) override;             // throws std::out_of_range if index >= size()
 
-    bool empty() const;
-    T& front();                                // throws std::out_of_range if empty
-    T& back();                                 // throws std::out_of_range if empty
+    //bool empty() const;
+   // T& front();                                // throws std::out_of_range if empty
+    //T& back();                                 // throws std::out_of_range if empty
     void push_back(const T& value);
-    void pop_back();                           // throws std::out_of_range if empty
-    bool contains(const T& value) const;
-    int indexOf(const T& value) const;         // -1 if not found
-    void print(std::ostream& os) const;        // prints [1, 2, 3]
-    bool operator==(const LinkedList& other) const;   // same size and same elements
-    bool operator!=(const LinkedList& other) const;
+    //void pop_back();                           // throws std::out_of_range if empty
+    //bool contains(const T& value) const;
+    //int indexOf(const T& value) const;         // -1 if not found
+    //void print(std::ostream& os) const;        // prints [1, 2, 3]
+    //bool operator==(const LinkedList& other) const;   // same size and same elements
+    //bool operator!=(const LinkedList& other) const;
 
 private:
     struct Node {
